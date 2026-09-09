@@ -1,0 +1,24 @@
+{
+  "catalogCommit": "5934e9e40bcea73cc4a77195346c07a112f6f127",
+  "layout": [
+    { "id": "L28", "target": "TOP 39:61 collection index and collection-page 18:62:20 hero" },
+    { "id": "L09", "target": "Two-column product showcase with one-column mobile fallback" }
+  ],
+  "gimmicks": [
+    { "id": "C02", "target": "TOP collection selection and gallery lightbox expansion" },
+    { "id": "B04", "target": "TOP collection and brand hero image crossfade" },
+    { "id": "I02", "target": "SVG line drawing beside collection names" },
+    { "id": "I09", "target": "Torn-edge reveal on product images" },
+    { "id": "G05", "target": "Accessible product and gallery lightbox" },
+    { "id": "G10", "target": "Fine-pointer product proximity lift and image enlargement" },
+    { "id": "C09", "target": "Short jelly feedback on purchase buttons" },
+    { "id": "U08", "target": "Fine-pointer cursor morph on actionable media" },
+    { "id": "U09", "target": "Low-density lime ink trail on fine pointers" },
+    { "id": "U13", "target": "Click shockwave feedback" },
+    { "id": "N07", "target": "Circular fullscreen menu and page-cover transition" }
+  ],
+  "fonts": [
+    { "id": "F26", "target": "Bungee for wide rounded collection typography" },
+    { "id": "F22", "target": "Anton display fallback" }
+  ]
+}
