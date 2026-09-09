@@ -5,7 +5,7 @@
     { "id": "L09", "target": "Two-column product showcase with one-column mobile fallback" }
   ],
   "gimmicks": [
-    { "id": "C02", "target": "TOP collection selection and gallery lightbox expansion" },
+    { "id": "C02", "target": "Gallery and product images expand into the accessible lightbox" },
     { "id": "B04", "target": "TOP collection and brand hero image crossfade" },
     { "id": "I02", "target": "SVG line drawing beside collection names" },
     { "id": "I09", "target": "Torn-edge reveal on product images" },
@@ -15,10 +15,13 @@
     { "id": "U08", "target": "Fine-pointer cursor morph on actionable media" },
     { "id": "U09", "target": "Low-density lime ink trail on fine pointers" },
     { "id": "U13", "target": "Click shockwave feedback" },
-    { "id": "N07", "target": "Circular fullscreen menu and page-cover transition" }
+    { "id": "N07", "target": "Circular fullscreen menu and click-position TOP to brand page reveal" }
   ],
   "fonts": [
     { "id": "F26", "target": "Bungee for wide rounded collection typography" },
     { "id": "F22", "target": "Anton display fallback" }
+  ],
+  "revisions": [
+    { "date": "2026-09-09", "summary": "Replaced TOP, hero and gallery artwork; changed galleries to non-cropped horizontal strips; changed TOP navigation to the N07 circular reveal." }
   ]
 }

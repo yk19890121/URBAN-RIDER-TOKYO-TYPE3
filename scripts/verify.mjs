@@ -23,6 +23,8 @@ for (const product of products) {
 
 for (const collection of collections) {
   assert.ok(assets[collection.slug], `Missing asset group: ${collection.slug}`);
+  assert.ok(assets[collection.slug].top.length && assets[collection.slug].hero.length && Array.isArray(assets[collection.slug].gallery), `Missing top/hero/gallery: ${collection.slug}`);
+  assert.equal(assets[collection.slug].gallery.length > 0, collection.slug !== 'brand', `Gallery rule mismatch: ${collection.slug}`);
   const pagePath = `dist/collections/${collection.slug}/index.html`;
   assert.ok(await exists(pagePath), `Missing collection page: ${collection.slug}`);
   const html = await read(pagePath);

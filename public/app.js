@@ -152,17 +152,28 @@ function setupProductPaging() {
 }
 
 function setupTransitions() {
-  const cover = document.querySelector('.page-cover');
-  if (!cover || reduceMotion.matches) return;
-  document.querySelectorAll('a[data-transition]').forEach(link => link.addEventListener('click', event => {
-    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || link.target === '_blank') return;
-    const destination = new URL(link.href, location.href);
-    if (destination.origin !== location.origin) return;
+  let navigating = false;
+  addEventListener('pageshow', () => { navigating = false; });
+  document.documentElement.addEventListener('animationend', event => {
+    if (event.animationName === 'veil-open') document.documentElement.classList.remove('wipe-enter');
+  });
+  document.querySelectorAll('[data-nav-reveal]').forEach(link => link.addEventListener('click', event => {
+    if (reduceMotion.matches || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault();
-    cover.classList.add('is-active');
-    setTimeout(() => { location.href = destination.href; }, 520);
+    if (navigating) return;
+    navigating = true;
+    const x = event.clientX || innerWidth / 2;
+    const y = event.clientY || innerHeight / 2;
+    try { sessionStorage.setItem('urt:wipe', JSON.stringify({ x, y, t: Date.now() })); } catch { /* private mode */ }
+    const veil = document.createElement('div');
+    veil.className = 'page-veil';
+    document.body.append(veil);
+    const radius = Math.ceil(Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)));
+    veil.animate(
+      [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${radius}px at ${x}px ${y}px)` }],
+      { duration: 520, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' },
+    ).finished.finally(() => location.assign(link.href));
   }));
-  window.addEventListener('pageshow', () => cover.classList.remove('is-active'));
 }
 
 function setupPointerEffects() {
