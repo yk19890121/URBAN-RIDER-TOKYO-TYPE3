@@ -15,6 +15,7 @@ const esc = value => String(value ?? '')
 const yen = value => `¥${Number(value).toLocaleString('ja-JP')}`;
 const href = (prefix, slug) => `${prefix}collections/${slug}/`;
 const arrow = '<span class="arrow" aria-hidden="true">→</span>';
+const lookbookNote = '※掲載している着用イメージは、商品画像をもとに制作したイメージビジュアルです。実際の商品を着用して撮影したものではないため、色味・質感・サイズ感などが実物と異なる場合があります。';
 
 function image(src, prefix, alt, { className = '', position = '50% 50%', priority = false, contain = false } = {}) {
   const small = src.replace('.webp', '-640.webp');
@@ -39,6 +40,10 @@ function footer(prefix, collection) {
   const brand = collection?.short || 'URBAN RIDER TOKYO';
   const galleryLink = collection?.slug === 'brand' ? '' : '<a href="#gallery">GALLERY</a>';
   return `<footer class="site-footer"><div><a class="footer-mark" href="${prefix}">URBAN<br>RIDER TOKYO</a><p>${collection ? collection.tagline : '都市を駆ける、自由な魂へ。'}</p></div><nav aria-label="フッターナビゲーション"><a href="${prefix}">TOP</a>${galleryLink}<a href="#products">T-SHIRTS</a><a href="https://suzuri.jp/URBAN_RIDER_TOKYO" target="_blank" rel="noopener noreferrer">ONLINE STORE</a></nav><div class="footer-meta"><span>${esc(brand)} COLLECTION</span><span>GRAPHIC T-SHIRT SHOP</span><span>© ${new Date().getFullYear()} URBAN RIDER TOKYO</span></div></footer>`;
+}
+
+function renderLookbook(files, prefix, collection) {
+  return `<section class="lookbook-section" aria-labelledby="lookbook-title"><header class="lookbook-heading"><div><span>LOOK BOOK</span><h2 id="lookbook-title">着用イメージ</h2></div><strong>05</strong><small>PORTRAIT VISUALS<br>HORIZONTAL SCROLL</small></header><div class="lookbook-track" tabindex="0" role="group" aria-label="${esc(collection.name)}の着用イメージ（横スクロール）">${files.map((src, index) => `<button class="lookbook-item" type="button" data-lightbox="${prefix}${src}" data-caption="${esc(collection.short)} LOOK BOOK ${String(index + 1).padStart(2, '0')}" data-cursor="VIEW" aria-label="着用イメージ${index + 1}を拡大表示"><picture><source media="(max-width:760px)" srcset="${prefix}${src.replace('.webp', '-640.webp')}"><img src="${prefix}${src}" alt="${esc(collection.name)} 着用イメージ ${index + 1}" width="941" height="1672" loading="lazy" decoding="async"></picture><span>${String(index + 1).padStart(2, '0')}</span></button>`).join('')}</div><p class="lookbook-note">${lookbookNote}</p></section>`;
 }
 
 function shell(content, { prefix = '', collection = null } = {}) {
@@ -96,6 +101,7 @@ for (const collection of collections) {
   await fs.mkdir(folder, { recursive: true });
   let html = brandPage(collection);
   if (collection.slug === 'brand') html = html.replace('<a href="#gallery">GALLERY</a>', '').replace(/<section class="editorial-gallery"[^>]*><\/section>/, '');
+  html = html.replace('<section class="next-collection">', `${renderLookbook(assets.lookbook[collection.slug], '../../', collection)}<section class="next-collection">`);
   await fs.writeFile(path.join(folder, 'index.html'), html);
 }
 await fs.writeFile(path.join(out, '404.html'), '<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ページが見つかりません</title><body style="font-family:sans-serif;padding:10vw;background:#251c35;color:#d9ff52"><h1>PAGE NOT FOUND</h1><p>お探しのページは見つかりませんでした。</p><a style="color:#d6c9ed" href="./">TOPへ戻る</a></body></html>');
